@@ -1,0 +1,33 @@
+var iculture_parking=[
+{
+	"title":"Time停車場",
+	"details":"停車場",
+	"latitude":24.1460221,
+	"longitude":120.6579537
+},
+{
+	"title":"城市車旅停車場",
+	"details":"停車場",
+	"latitude":24.1447784,
+	"longitude":120.6541985
+},
+{
+	"title":"向上停車場",
+	"details":"停車場",
+	"latitude":24.1448557,
+	"longitude":120.6541985
+},
+{
+	"title":"華爾街資訊大樓停車場",
+	"details":"停車場",
+	"latitude":24.1455904,
+	"longitude":120.6560225
+},
+{
+	"title":"審計新村",
+	"details":"目的地",
+	"latitude":24.1449469,
+	"longitude":120.6623606
+},
+
+]

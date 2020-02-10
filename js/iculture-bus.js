@@ -1,0 +1,33 @@
+var iculture_bus=[
+{
+	"title":"向上國中",
+	"details":"公車站",
+	"latitude":24.1440296,
+	"longitude":120.6616696
+},
+{
+	"title":"美村向上路口",
+	"details":"公車站",
+	"latitude":24.1461273,
+	"longitude":120.6616811
+},
+{
+	"title":"互助新村",
+	"details":"公車站",
+	"latitude":24.1447743,
+	"longitude":120.6609899
+},
+{
+	"title":"市農會",
+	"details":"公車站",
+	"latitude":24.1463493,
+	"longitude":120.6629399
+},
+{
+	"title":"審計新村",
+	"details":"目的地",
+	"latitude":24.1449469,
+	"longitude":120.6623606
+},
+
+]

@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<title>美食地圖</title>
+	<script defer src="https://maps.googleapis.com/maps/api/js?key=AIzaSyC-be5pwhgwxTsdF35doJEbsUw086Hbso8" type="text/javascript"></script>
+	<link rel="stylesheet"  href="css/jquery.mobile-1.4.5.min.css">
+	<script src="js/jquery-2.1.0.min.js"></script>
+	<script src="js/jquery.mobile-1.4.5.min.js"></script>
+	<script src="js/get_food_opendata.js"></script><!-- 自定義json檔 -->
+	<style>
+		#map{
+			width: 400px;
+			height: 700px;
+			box-shadow: 2px 2px 2px 3px #ccc;
+			margin-top: 0px;
+			margin-bottom: 0px;
+			margin-left: auto;
+			margin-right: auto;
+		}
+		#msg{
+			color: #33C526;
+			font-size:20px;
+			font-weight: bold;
+			/*粗體*/
+		}
+		#img{
+			width: 50px;
+			height: 50px;
+			box-shadow: 2px,2px,6px,10px #ccc;
+		}
+	</style>
+	<script>
+		//$(function(){
+		//alert(traveldata.length);
+		//});// 測試有無抓到資料
+		   	function getDistance(Lat1, Long1, Lat2, Long2){
+   			ConvertDegreeToRadians=function(degrees){
+   				return (Math.PI/180)*degrees;} 
+   			var Lat1r = ConvertDegreeToRadians(Lat1);
+   			var Lat2r = ConvertDegreeToRadians(Lat2); 
+   			var Long1r = ConvertDegreeToRadians(Long1); 
+   			var Long2r = ConvertDegreeToRadians(Long2);
+
+   			var R = 6371; // 地球半徑(km) 
+   			var d = Math.acos(Math.sin(Lat1r) * Math.sin(Lat2r) +
+   				 Math.cos(Lat1r) * Math.cos(Lat2r) * Math.cos(Long2r-Long1r)) * R; 
+   					return d;
+   			} // 兩點的距離 (KM)
+
+		$(function(){
+			//設定地圖中心點
+			var map=document.getElementById("map");//此map是div裡的map
+			//取得經緯度
+			var lat=24.1629258;
+			var lng=120.638215;
+			var latlng=new google.maps.LatLng(lat,lng);
+			var gmap=new google.maps.Map(map,{
+				zoom:8,//設定縮放比例 愈大愈近
+				center:latlng,//設定中心點經緯度 必須為LatLng型態
+				mapTypeId:google.maps.MapTypeId.ROADMAP//ROADMAP:2D街景地圖
+				//HYBRID:衛星&街景混合 TERRAIN:顯示高度,山峰,河流 SATELLITE:衛星地圖	
+			});
+
+
+		// 利用for迴圈重複執行google.maps.Marker，同時必須改變position的值
+		var marker=[];//宣告marker為一個陣列 才能執行marker[i]
+		for(i=0;i < traveldata.length; i++){
+			latlng=new google.maps.LatLng(traveldata[i].latitude,traveldata[i].longitude);
+			 marker[i] = new google.maps.Marker({
+				position:latlng,
+				icon:"../images/small_map.png",
+				map:gmap,
+				title:"Hellow"
+			});
+			google.maps.event.addListener(marker[i],"click",function(event){
+				var lat=event.latLng.lat();//觸碰地圖時取得的座標
+				var lng=event.latLng.lng();//觸碰地圖時取得的座標
+
+				for(j=0;j<traveldata.length;j++){
+   		var disp=getDistance(lat,lng,traveldata[j].latitude,traveldata[j].longitude);//單位:公里
+   		// 計算地球上兩點的距離
+					if(disp<0.001){
+    					var infowindow = new google.maps.InfoWindow({
+     					content:"<div>"+traveldata[j].title+"<br>"+traveldata[j].deatils+"</div>"
+    					});//0.001=1公尺 若觸碰<1m就會觸發 可彈性設定
+    				infowindow.open(gmap,marker[j]);//設定訊息視窗出現的位置	
+					}//if
+				}//for j end			
+			});
+		  }//for i end
+		});//end
+
+
+	</script>
+</head>
+<body>
+	<div data-role="page" id="home">
+		<div data-role="header" data-position="fixed" id="home" data-theme="b">
+			<h1>美食地圖</h1>
+		</div>
+		<div role="main" class="ui-content">
+			<div id="map"></div>
+			
+		</div>
+		<div data-role="footer" data-position="fixed" data-theme="b">
+		</div>
+	</div>
+</body>
+</html>		
