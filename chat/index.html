@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Chat</title>
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    <script>
+        var from = null, start = 0 , url = 'http://localhost/chat/chat.php';
+        $(document).ready(function () {
+            //prompt 為輸入盒
+            from = prompt("請輸入你的姓名");
+            load();
+            $('form').submit(function(e){
+                $.post(url,{
+                    message: $('#message').val(),
+                    from: from
+                });
+                $('#message').val('');
+                return false;
+            })
+        });
+
+        function load(){
+            $.get(url+ '?start=' + start, function(result){
+                if(result.items){
+                    result.items.forEach(item =>{
+                        start = item.id;
+                        $('#messages').append(renderMessage(item));
+                    });
+                    $('#messages').animate({scrollTop: $('#messages')[0].scrollHeight});
+                };
+                load();
+            });
+        }
+
+        function renderMessage(item){
+            //let與const是區塊作用域(block scope) 表示用let宣告之變數在此區域外無法作用。
+            let time = new Date(item.created);
+            time = `${time.getHours()}:${time.getMinutes() < 10 ? '0' : ''}${time.getMinutes()}`;//中間判斷為<10會補一個0
+            return `<div class="msg"><p>${item.from}</p>${item.message}<span>${time}</span></div>`;
+            //console.log(item);
+        }
+    </script>
+    <style>
+        body{
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+        }
+        #messages{
+            height: 88vh;
+            /* 自動隱藏超出的文字或圖片*/
+            overflow-x: hidden;
+            padding: 10px;
+            background-image: url(bg.jpg);
+            
+        }
+        form{
+            /* 要改成 flex 排版，外容器一定要加 display: flex 故message可使用flex */
+            display: flex;
+        }
+        input{
+            /* rem 是相對單位，其文字大小是相對於根元素(html標籤) */
+            font-size: 1.2rem;
+            padding: 10px;
+            margin: 10px 5px;
+            appearance: none;
+            /* Safari and Chrome  去除系统默认appearance的样式 */
+            -webkit-appearance: none;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        #message{
+            flex: 2;
+        }
+        .msg{
+            background-color:#dcf8c6;
+            padding: 5px 10px;
+            border-radius: 5px;
+            margin-bottom: 8px;
+            width:fit-content;
+        }
+        .msg p{
+            margin:0px;
+            font-weight: bold;
+        }
+        .msg span{
+            font-size: 0.7rem;
+            margin-left: 15px;
+        }
+    </style>
+</head>
+<body>
+    <div id="messages"></div>
+    <form>
+        <!-- autocomplete為表單自動填字功能 autofocus為網頁載入時預設的焦點控制項 -->
+        <input type="text" id="message" autocomplete="off" autofocus placeholder="請輸入訊息內容...">
+        <input type="submit" value="Send">
+    </form>
+</body>
+</html>
