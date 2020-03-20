@@ -1,0 +1,237 @@
+*{
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+body{
+    font-family: 'Poppins', sans-serif;
+}
+
+.wave{
+    position: fixed;
+    height: 100%;
+    left: 0;
+    bottom: 0;
+    z-index: 1;
+}
+
+.container{
+    width: 100vw;
+    height: 100vh;
+    /* 格線容器  在它下面的直接子元素，是格線單元。*/
+    display: grid;
+    /* 格線軌道 fr為格線單位 數值愈高 佔的欄位愈大 */
+    grid-template-columns: repeat(2,1fr);
+    /* grid-gap->格線間的間距 */
+    grid-gap: 7rem;
+    padding: 0 2rem;
+    /* rem 是相對單位,為每個元素透過「倍數」乘以根元素的 px 值,如果我們每一層 div 都使用 1.2rem，最內層就會是16px x 1.2 = 19.2px。( 根元素指的是 html 的 font-size，預設為 16px )。 */
+}
+
+.img{
+    display: flex;
+     /* Flexbox 的「水平對齊」 :靠右 */
+    justify-content: flex-end;
+    /* Flexbox 的「垂直對齊」 */
+    align-items: center;
+}
+
+.img img{
+    width: 500px;
+}
+
+.login-container{
+    display: flex;
+    align-items: center;
+    /* 水平對齊 */
+    text-align: center;
+}
+
+.form{
+    width: 360px;
+}
+
+.form h2{
+    font-size: 2.9rem;
+    /* 定義每個英文單字的字母均為大寫字體 */
+    text-transform: uppercase;
+    margin:15px 0;
+    color : #333;
+}
+
+.avatar{
+    width: 100px;
+}
+
+.input-div{
+    position: relative;
+    display: grid;
+    grid-template-columns: 7% 93%;
+    /* ↓正常4值語法為 上 右 下 左，2值語法為：縱向 橫向 */
+    margin: 25px 0;
+    padding: 5px 0;
+    border-bottom: 2px solid #d9d9d9;
+}
+
+.input-div:after, .input-div:before{
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background-color: #38d39f;
+    transition: .3s;
+}
+
+.input-div:after{
+    right: 50%;
+}
+.input-div:before{
+    left: 50%;
+}
+
+.input-div.focus .i i{
+    color: #38d39f;
+}
+
+.input-div.focus div h5{
+    top: -5px;
+    font-size: 15px;
+}
+
+.input-div.focus:after,.input-div.focus:before{
+    width: 50%;
+}
+
+.input-div.one{
+    margin-top: 0;
+}
+.input-div.two{
+    margin-bottom: 4px;
+}
+
+.i{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.i i{
+    color: #d9d9d9;
+    transition: .3s;
+}
+/* >為 只影響此class裡的 div */
+.input-div > div{
+    position: relative;
+    height: 45px;
+}
+
+
+.input-div > div h5{
+    position: absolute;
+    left: 10px;
+    top: 50%;
+    /* 定義 Y 軸方向的 2D 轉換 */
+    transform: translateY(-50%);
+    color: #999;
+    font-size: 18px;
+    /* 轉場效果 */
+    transition: .3s;
+}
+
+.input{
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    border: none;
+    outline: none;
+    background: none;
+    padding: 0.5rem 0.7rem;
+    font-size: 1.2rem;
+    font-family: 'Poppins', sans-serif;
+    color: #555;
+}
+
+a{
+    /* block:元素會以區塊方式呈現(換行) inline:所有文字或圖片均不換行，也就是全部都會是同一行 */
+    display: block;
+    text-align: right;
+    /* 文字線條：none 無 overline 上線 underline 底線等等特效 */
+    text-decoration: none;
+    color: #999;
+    font-size: 0.9rem;
+    transition:  .3s;
+}
+
+a:hover{
+    color: #38d39f;
+}
+
+.btn{
+    display: block;
+    width: 100%;
+    height: 50px;
+    border-radius: 25px;
+    margin: 1rem 0;
+    font-size: 1.2rem;
+    outline: none;
+    border: none;
+    /* 顏色漸層 往右 */
+    background-image: linear-gradient(to right, #32be8f, #38d39f, #32be8f);
+    /* 滑鼠游標型態 超連結樣式 */
+    cursor: pointer;
+    color: #fff;
+    text-transform: uppercase;
+    font-family: 'Poppins', sans-serif;
+    background-size: 200%;
+    transition: .5s;
+}
+
+.btn:hover{
+    background-position: right;
+}
+
+@media screen and (max-width: 1050px){
+    .container{
+        grid-gap: 5rem;
+    }
+}
+
+
+@media screen and (max-width: 1000px){
+    form{
+        width: 290px;
+    }
+
+    form h2{
+        font-size: 2.4rem;
+        margin: 8px 0;
+    }
+
+    .img img{
+        width: 400px;
+    }
+    
+}
+
+
+@media screen and (max-width: 900px){
+    .img{
+        display: none;
+    }
+
+    .container{
+        grid-template-columns: 1fr;
+    }
+
+    .wave{
+        display: none;
+    }
+
+    .login-container{
+        justify-content: center;
+    }
+}
